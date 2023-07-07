@@ -109,33 +109,48 @@ let track_list = [
     name: "Thar",
     artist: "Love Kataria",
     image: "https://media.discordapp.net/attachments/1126220545168527466/1126880783018250330/image.png",
+
     path: "https://cdn.discordapp.com/attachments/1126220545168527466/1126880673383338104/THAR_Full_Song.mp3"
   },
   {
     name: "Rubicon Drill",
     artist: "Laddi Chahal",
     image: "https://media.discordapp.net/attachments/1126220545168527466/1126881411295617024/image.png",
-    path: "https://cdn.discordapp.com/attachments/1126220545168527466/1126881284480839821/Rubicon_Drill___Laddi_Chahal.mp3",
+
+    path: "https://cdn.discordapp.com/attachments/1126220545168527466/1126881284480839821/Rubicon_Drill___Laddi_Chahal.mp3"
   },
 ];
 
 
 function loadTrack(track_index) {
+  // Clear the previous seek timer
   clearInterval(updateTimer);
   resetValues();
+ 
+  // Load a new track
   curr_track.src = track_list[track_index].path;
   curr_track.load();
-
-  track_art.style.backgroundImage = "url(" + track_list[track_index].image + ")";
+ 
+  // Update details of the track
+  track_art.style.backgroundImage =
+     "url(" + track_list[track_index].image + ")";
   track_name.textContent = track_list[track_index].name;
   track_artist.textContent = track_list[track_index].artist;
-  now_playing.textContent = "PLAYING " + (track_index + 1) + " OF " + track_list.length;
-
+  now_playing.textContent =
+     "PLAYING " + (track_index + 1) + " OF " + track_list.length;
+ 
+  // Set an interval of 1000 milliseconds
+  // for updating the seek slider
   updateTimer = setInterval(seekUpdate, 1000);
+ 
+  // Move to the next track if the current finishes playing
+  // using the 'ended' event
   curr_track.addEventListener("ended", nextTrack);
-  random_bg_color();
-}
+ 
 
+}
+ 
+// Function to reset all values to their default
 function resetValues() {
   curr_time.textContent = "00:00";
   total_duration.textContent = "00:00";
@@ -166,7 +181,7 @@ function nextTrack() {
   if (track_index < track_list.length - 1)
     track_index += 1;
   else track_index = 0;
-  loadTrack(track_index);
+  loadTrack(track_index)
   playTrack();
 }
 
